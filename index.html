@@ -1,62 +1,311 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meus Links</title>
+    <title>Luis Zanoto - Hub de Projetos & Jogos</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#090d16',
+                        cardBg: 'rgba(255, 255, 255, 0.03)',
+                        cardBorder: 'rgba(255, 255, 255, 0.08)',
+                        accentPrimary: '#6366f1',
+                        accentSecondary: '#ec4899',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Custom smooth scroll & glassmorphism glow */
+        html {
+            scroll-behavior: smooth;
         }
-
         body {
-            background-color: #000;
-            color: #fff;
-            font-family: Arial, Helvetica, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
+            font-family: 'Inter', sans-serif;
+            background-color: #090d16;
+            color: #f3f4f6;
+            overflow-x: hidden;
         }
-
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            letter-spacing: 2px;
+        .glass-panel {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
-
-        a {
-            display: block;
-            width: 260px;
-            padding: 15px;
-            text-align: center;
-            text-decoration: none;
-            color: #fff;
-            border: 1px solid #fff;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
+        .glow-effect:hover {
+            box-shadow: 0 0 25px rgba(99, 102, 241, 0.25);
+            border-color: rgba(99, 102, 241, 0.4);
         }
-
-        a:hover {
-            background-color: #fff;
-            color: #000;
+        .bg-grid-pattern {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+            background-size: 32px 32px;
         }
     </style>
 </head>
-<body>
-    <h1>Meus Links</h1>
+<body class="bg-darkBg min-h-screen bg-grid-pattern flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
 
-    <!-- Edite o href e o texto de cada link abaixo -->
+    <header class="w-full pt-16 pb-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center relative">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        
+        <div class="inline-flex items-center justify-center p-3 mb-6 rounded-2xl glass-panel shadow-inner text-indigo-400">
+            <i class="fa-solid fa-code text-2xl"></i>
+        </div>
+        
+        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-white mb-3">
+            Luis Zanoto
+        </h1>
+        <p class="text-lg text-slate-400 max-w-xl mx-auto mb-6 font-light">
+            Hub centralizado de aplicativos, ferramentas e experiências interativas em desenvolvimento.
+        </p>
 
-    <a href="https://site1.com" target="_blank">Link 1</a>
-    <a href="https://site2.com" target="_blank">Link 2</a>
-    <a href="https://site3.com" target="_blank">Link 3</a>
-    <a href="https://site4.com" target="_blank">Link 4</a>
+        <!-- Download Code Button -->
+        <div class="mb-8">
+            <button onclick="downloadCode()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm transition-all shadow-lg shadow-indigo-500/20 active:scale-95 cursor-pointer">
+                <i class="fa-solid fa-download"></i> Baixar Código-Fonte (HTML)
+            </button>
+        </div>
 
+        <!-- Search / Filter Bar -->
+        <div class="max-w-md mx-auto relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400">
+                <i class="fa-solid fa-search"></i>
+            </span>
+            <input type="text" id="searchInput" placeholder="Pesquisar projetos ou jogos..." 
+                class="w-full pl-11 pr-4 py-3 rounded-xl glass-panel text-white placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all shadow-lg">
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 pb-16 space-y-16">
+
+        <!-- Projetos Section -->
+        <section id="projetos-section" class="space-y-6">
+            <div class="flex items-center space-x-3 border-b border-slate-800 pb-3">
+                <div class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                    <i class="fa-solid fa-laptop-code"></i>
+                </div>
+                <h2 class="text-2xl font-bold tracking-tight text-white">Projetos</h2>
+                <span class="text-xs font-medium bg-indigo-500/10 text-indigo-400 px-2.5 py-1 rounded-full border border-indigo-500/20">Ferramentas & Web</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="projetos-grid">
+                
+                <!-- Card: Teste HTML (Mufla 26cc) -->
+                <a href="https://luiszanoto.github.io/teste_html/" target="_blank" rel="noopener noreferrer" 
+                   data-title="Teste HTML Mufla 26cc" data-desc="Página de teste de mufla caseira para motor 26cc."
+                   class="group glass-panel rounded-2xl p-6 transition-all duration-300 glow-effect flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 w-32 h-32 bg-indigo-500/5 rounded-full blur-2xl group-hover:bg-indigo-500/15 transition-all"></div>
+                    <div>
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-gauge-high"></i>
+                            </div>
+                            <span class="text-xs font-semibold text-slate-400 flex items-center gap-1 group-hover:text-indigo-400 transition-colors">
+                                Acessar <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            </span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white mb-2 group-hover:text-indigo-300 transition-colors">Teste de Mufla 26cc</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Página de teste de mufla caseira para motor 26cc.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs text-slate-500 font-mono">
+                        <span>teste_html/</span>
+                        <span class="text-indigo-400/80 font-sans">Visualizar live</span>
+                    </div>
+                </a>
+
+                <!-- Card: Decibelímetro -->
+                <a href="https://luiszanoto.github.io/decibelimetro/" target="_blank" rel="noopener noreferrer" 
+                   data-title="Decibelímetro" data-desc="Medidor de nível sonoro e áudio diretamente no navegador."
+                   class="group glass-panel rounded-2xl p-6 transition-all duration-300 glow-effect flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 w-32 h-32 bg-indigo-500/5 rounded-full blur-2xl group-hover:bg-indigo-500/15 transition-all"></div>
+                    <div>
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-volume-high"></i>
+                            </div>
+                            <span class="text-xs font-semibold text-slate-400 flex items-center gap-1 group-hover:text-emerald-400 transition-colors">
+                                Acessar <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            </span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white mb-2 group-hover:text-emerald-300 transition-colors">Decibelímetro</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Ferramenta web interativa para medição e monitoramento de ruídos e som ambiente.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs text-slate-500 font-mono">
+                        <span>decibelimetro/</span>
+                        <span class="text-emerald-400/80 font-sans">Visualizar live</span>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- Jogos Section -->
+        <section id="jogos-section" class="space-y-6">
+            <div class="flex items-center space-x-3 border-b border-slate-800 pb-3">
+                <div class="w-8 h-8 rounded-lg bg-pink-500/20 text-pink-400 flex items-center justify-center">
+                    <i class="fa-solid fa-gamepad"></i>
+                </div>
+                <h2 class="text-2xl font-bold tracking-tight text-white">Jogos</h2>
+                <span class="text-xs font-medium bg-pink-500/10 text-pink-400 px-2.5 py-1 rounded-full border border-pink-500/20">Mini-Games & Entretenimento</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="jogos-grid">
+                
+                <!-- Card: Pescaria -->
+                <a href="https://luiszanoto.github.io/Pescaria/" target="_blank" rel="noopener noreferrer" 
+                   data-title="Pescaria" data-desc="Jogo interativo de pesca desenvolvido para web."
+                   class="group glass-panel rounded-2xl p-6 transition-all duration-300 glow-effect flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 w-32 h-32 bg-pink-500/5 rounded-full blur-2xl group-hover:bg-pink-500/15 transition-all"></div>
+                    <div>
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-fish"></i>
+                            </div>
+                            <span class="text-xs font-semibold text-slate-400 flex items-center gap-1 group-hover:text-cyan-400 transition-colors">
+                                Jogar <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            </span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white mb-2 group-hover:text-cyan-300 transition-colors">Pescaria</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Descontraído jogo casual de pesca online com mecânicas divertidas.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs text-slate-500 font-mono">
+                        <span>Pescaria/</span>
+                        <span class="text-cyan-400/80 font-sans">Jogar agora</span>
+                    </div>
+                </a>
+
+                <!-- Card: Zanac -->
+                <a href="https://luiszanoto.github.io/Zanac/" target="_blank" rel="noopener noreferrer" 
+                   data-title="Zanac" data-desc="Releitura ou jogo inspirado no clássico estilo arcade de nave."
+                   class="group glass-panel rounded-2xl p-6 transition-all duration-300 glow-effect flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 w-32 h-32 bg-pink-500/5 rounded-full blur-2xl group-hover:bg-pink-500/15 transition-all"></div>
+                    <div>
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-pink-500/10 border border-pink-500/20 text-pink-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-rocket"></i>
+                            </div>
+                            <span class="text-xs font-semibold text-slate-400 flex items-center gap-1 group-hover:text-pink-400 transition-colors">
+                                Jogar <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            </span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white mb-2 group-hover:text-pink-300 transition-colors">Zanac</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Jogo estilo arcade de tiro espacial inspirado no clássico título Zanac.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs text-slate-500 font-mono">
+                        <span>Zanac/</span>
+                        <span class="text-pink-400/80 font-sans">Jogar agora</span>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- No Results Message (Hidden by default) -->
+        <div id="noResults" class="hidden text-center py-12">
+            <div class="inline-flex items-center justify-center p-4 rounded-full bg-slate-800/50 text-slate-400 mb-3 text-xl">
+                <i class="fa-solid fa-face-frown"></i>
+            </div>
+            <p class="text-slate-400 font-medium">Nenhum projeto ou jogo encontrado para a sua busca.</p>
+        </div>
+
+    </main>
+
+    <footer class="w-full border-t border-slate-800/80 py-8 text-center text-slate-500 text-sm">
+        <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>© <span id="currentYear">2026</span> Luis Zanoto. Todos os direitos reservados.</p>
+            <div class="flex items-center space-x-4">
+                <span class="inline-flex items-center gap-1.5 text-xs text-slate-400">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Sistema Online
+                </span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Update current year dynamically
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Download code function
+        function downloadCode() {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'index.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Real-time Search / Filter functionality
+        const searchInput = document.getElementById('searchInput');
+        const projetoCards = document.querySelectorAll('#projetos-grid > a');
+        const jogoCards = document.querySelectorAll('#jogos-grid > a');
+        const projetosSection = document.getElementById('projetos-section');
+        const jogosSection = document.getElementById('jogos-section');
+        const noResults = document.getElementById('noResults');
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            let visibleProjetos = 0;
+            let visibleJogos = 0;
+
+            projetoCards.forEach(card => {
+                const title = card.getAttribute('data-title').toLowerCase();
+                const desc = card.getAttribute('data-desc').toLowerCase();
+                if (title.includes(query) || desc.includes(query)) {
+                    card.style.display = '';
+                    visibleProjetos++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            jogoCards.forEach(card => {
+                const title = card.getAttribute('data-title').toLowerCase();
+                const desc = card.getAttribute('data-desc').toLowerCase();
+                if (title.includes(query) || desc.includes(query)) {
+                    card.style.display = '';
+                    visibleJogos++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Toggle section visibility if all cards inside are hidden
+            projetosSection.style.display = visibleProjetos === 0 && query !== '' ? 'none' : '';
+            jogosSection.style.display = visibleJogos === 0 && query !== '' ? 'none' : '';
+
+            // Show no results message if both sections are empty
+            if (visibleProjetos === 0 && visibleJogos === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+        });
+    </script>
 </body>
 </html>
